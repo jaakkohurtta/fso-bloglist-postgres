@@ -1,0 +1,21 @@
+{
+  "name": "fso-bloglist-postgres",
+  "version": "0.1.0",
+  "description": "Backend with PostgreSQL for FSO Bloglist App",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jaakko Hurtta",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "dotenv": "^15.0.0",
+    "express": "^4.17.2",
+    "pg": "^8.7.1",
+    "sequelize": "^6.15.0"
+  }
+}
