@@ -1,39 +1,42 @@
 import { Router } from "express";
 import { Blog } from "../models/index.mjs";
+import { blogFinder } from "../utils/middleware.mjs";
 
 const router = Router();
-
-const blogFinder = async (req, res, next) => {
-  req.blog = await Blog.findByPk(req.params.id);
-  next();
-};
 
 router.get("/", async (req, res) => {
   const blogs = await Blog.findAll();
   res.json(blogs);
 });
 
-router.post("/", async (req, res) => {
-  const newBlog = req.body;
-  const blog = await Blog.create(newBlog);
-  res.json(blog);
+router.post("/", async (req, res, next) => {
+  try {
+    const blog = await Blog.create(req.body);
+    res.json(blog);
+  } catch (e) {
+    next({ error: e.name, message: e.message });
+  }
 });
 
 router.get("/:id", blogFinder, async (req, res) => {
   if (req.blog) {
     res.json(req.blog);
   } else {
-    res.status(404).end();
+    res.status(204).end();
   }
 });
 
-router.put("/:id", blogFinder, async (req, res) => {
+router.put("/:id", blogFinder, async (req, res, next) => {
   if (req.blog) {
-    req.blog.likes = req.body.likes;
-    await req.blog.save();
-    res.json(req.blog);
+    try {
+      req.blog.likes = req.body.likes;
+      await req.blog.save();
+      res.json(req.blog);
+    } catch (e) {
+      next({ error: e.name, message: e.message });
+    }
   } else {
-    res.status(404).end();
+    res.status(204).end();
   }
 });
 
@@ -41,7 +44,7 @@ router.delete(":id", blogFinder, async (req, res) => {
   if (req.blog) {
     await req.blog.destroy();
   } else {
-    res.status(404).end();
+    res.status(204).end();
   }
 });
 
