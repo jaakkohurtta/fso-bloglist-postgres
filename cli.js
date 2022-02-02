@@ -1,20 +1,17 @@
 import "dotenv/config";
-import { Blog, sequelize } from "./models/blog.mjs";
+import { Blog } from "./models/index.mjs";
+import { sequelize, connectToDatabase } from "./utils/db.mjs";
 
 const main = async () => {
-  try {
-    await sequelize.authenticate();
-    const blogs = await Blog.findAll();
+  await connectToDatabase();
+  const blogs = await Blog.findAll();
 
-    console.log("\n-< TABLE: BLOGS >-");
-    blogs.forEach((blog) => {
-      console.log(`${blog.author}: "${blog.title}", ${blog.likes} likes`);
-    });
+  console.log("\n-< TABLE: BLOGS >-");
+  blogs.forEach((blog) => {
+    console.log(`${blog.author}: "${blog.title}", ${blog.likes} likes`);
+  });
 
-    sequelize.close();
-  } catch (error) {
-    console.error("Unable to connect to the database:", error);
-  }
+  sequelize.close();
 };
 
 main();

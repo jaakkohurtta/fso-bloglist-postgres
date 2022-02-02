@@ -1,15 +1,7 @@
 import { Model, DataTypes, Sequelize } from "sequelize";
+import { sequelize } from "../utils/db.mjs";
 
-export const sequelize = new Sequelize(process.env.DATABASE_URL, {
-  dialectOptions: {
-    ssl: {
-      require: true,
-      rejectUnauthorized: false,
-    },
-  },
-});
-
-export class Blog extends Model {}
+export default class Blog extends Model {}
 Blog.init(
   {
     id: {
@@ -35,4 +27,3 @@ Blog.init(
   },
   { sequelize, underscored: true, timestamps: false, modelName: "blog" },
 );
-Blog.sync();
