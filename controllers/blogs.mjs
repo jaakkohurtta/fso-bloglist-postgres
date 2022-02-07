@@ -47,9 +47,16 @@ router.put("/:id", blogFinder, async (req, res, next) => {
   }
 });
 
-router.delete(":id", blogFinder, async (req, res) => {
-  if (req.blog) {
-    await req.blog.destroy();
+router.delete("/:id", blogFinder, tokenExtractor, async (req, res) => {
+  if (req.decodedToken && req.blog) {
+    // console.log(req.decodedToken.id, req.blog.userId);
+
+    if (req.decodedToken.id === req.blog.userId) {
+      await req.blog.destroy();
+      res.status(200).end();
+    } else {
+      res.status(403).end();
+    }
   } else {
     res.status(404).end();
   }
