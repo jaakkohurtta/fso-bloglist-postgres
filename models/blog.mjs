@@ -1,4 +1,4 @@
-import { Model, DataTypes, Sequelize } from "sequelize";
+import { Model, DataTypes } from "sequelize";
 import { sequelize } from "../utils/db.mjs";
 
 export default class Blog extends Model {}

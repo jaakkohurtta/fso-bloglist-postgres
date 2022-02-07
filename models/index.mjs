@@ -1,5 +1,10 @@
 import Blog from "./blog.mjs";
+import User from "./user.mjs";
 
-Blog.sync();
+User.hasMany(Blog);
+Blog.belongsTo(User);
 
-export { Blog };
+Blog.sync({ alter: true });
+User.sync({ alter: true });
+
+export { Blog, User };
