@@ -4,6 +4,7 @@ import { connectToDatabase } from "./utils/db.mjs";
 import { errorHandler } from "./utils/middleware.mjs";
 import { PORT } from "./utils/config.mjs";
 
+import authorRouter from "./controllers/authors.mjs";
 import blogsRouter from "./controllers/blogs.mjs";
 import loginRouter from "./controllers/login.mjs";
 import userRouter from "./controllers/users.mjs";
@@ -11,6 +12,7 @@ import userRouter from "./controllers/users.mjs";
 const app = express();
 
 app.use(express.json());
+app.use("/api/authors", authorRouter);
 app.use("/api/blogs", blogsRouter);
 app.use("/api/login", loginRouter);
 app.use("/api/users", userRouter);
