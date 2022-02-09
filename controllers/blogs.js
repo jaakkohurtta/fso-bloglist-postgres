@@ -30,8 +30,12 @@ router.get("/", async (req, res) => {
 
 router.post("/", tokenExtractor, async (req, res, next) => {
   try {
+    console.log(req.body);
     const user = await User.findByPk(req.decodedToken.id);
-    const blog = await Blog.create({ ...req.body, userId: user.id });
+    const blog = await Blog.create({
+      ...req.body,
+      userId: user.id,
+    });
     res.json(blog);
   } catch (e) {
     next({ error: e.name, message: e.message });
