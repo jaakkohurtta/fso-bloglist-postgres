@@ -1,9 +1,9 @@
-import jwt from "jsonwebtoken";
+const jwt = require("jsonwebtoken");
 
-import { Blog, User } from "../models/index.mjs";
-import { JWT_SECRET } from "./config.mjs";
+const { Blog, User } = require("../models/index");
+const { JWT_SECRET } = require("./config");
 
-export const blogFinder = async (req, res, next) => {
+const blogFinder = async (req, res, next) => {
   try {
     req.blog = await Blog.findByPk(req.params.id, {
       include: {
@@ -17,7 +17,7 @@ export const blogFinder = async (req, res, next) => {
   } // In case someone wants to find blogs with a string id, /api/blogs/123abc
 };
 
-export const tokenExtractor = (req, res, next) => {
+const tokenExtractor = (req, res, next) => {
   const authorization = req.get("authorization");
   if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
     try {
@@ -32,7 +32,13 @@ export const tokenExtractor = (req, res, next) => {
   next();
 };
 
-export const errorHandler = async (err, req, res, next) => {
+const errorHandler = async (err, req, res, next) => {
   console.log(err);
   res.status(400).json(err);
+};
+
+module.exports = {
+  blogFinder,
+  tokenExtractor,
+  errorHandler,
 };

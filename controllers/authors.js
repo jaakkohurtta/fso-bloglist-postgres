@@ -1,6 +1,6 @@
-import { Router } from "express";
-import { Sequelize } from "sequelize";
-import { Blog } from "../models/index.mjs";
+const { Router } = require("express");
+const { Sequelize } = require("sequelize");
+const { Blog } = require("../models/index");
 
 const router = Router();
 
@@ -22,4 +22,4 @@ router.get("/", async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;

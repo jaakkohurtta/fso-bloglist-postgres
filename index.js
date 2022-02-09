@@ -1,13 +1,13 @@
-import express from "express";
+const express = require("express");
 
-import { connectToDatabase } from "./utils/db.mjs";
-import { errorHandler } from "./utils/middleware.mjs";
-import { PORT } from "./utils/config.mjs";
+const { connectToDatabase } = require("./utils/db");
+const { errorHandler } = require("./utils/middleware");
+const { PORT } = require("./utils/config");
 
-import authorRouter from "./controllers/authors.mjs";
-import blogsRouter from "./controllers/blogs.mjs";
-import loginRouter from "./controllers/login.mjs";
-import userRouter from "./controllers/users.mjs";
+const authorRouter = require("./controllers/authors");
+const blogsRouter = require("./controllers/blogs");
+const loginRouter = require("./controllers/login");
+const userRouter = require("./controllers/users");
 
 const app = express();
 

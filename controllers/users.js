@@ -1,8 +1,7 @@
-import { Router } from "express";
-import bcrypt from "bcrypt";
-
-import { User, Blog } from "../models/index.mjs";
-import { tokenExtractor } from "../utils/middleware.mjs";
+const { Router } = require("express");
+const bcrypt = require("bcrypt");
+const { Blog, User } = require("../models/index");
+const { tokenExtractor } = require("../utils/middleware");
 
 const router = Router();
 
@@ -18,7 +17,6 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res, next) => {
-  console.log(req.body.password);
   try {
     const newUser = {
       username: req.body.username,
@@ -63,4 +61,4 @@ router.put("/:username", tokenExtractor, async (req, res, next) => {
   }
 });
 
-export default router;
+module.exports = router;

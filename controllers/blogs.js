@@ -1,7 +1,7 @@
-import { Router } from "express";
-import { Op } from "sequelize";
-import { Blog, User } from "../models/index.mjs";
-import { blogFinder, tokenExtractor } from "../utils/middleware.mjs";
+const { Router } = require("express");
+const { Op } = require("sequelize");
+const { Blog, User } = require("../models/index");
+const { blogFinder, tokenExtractor } = require("../utils/middleware");
 
 const router = Router();
 
@@ -75,4 +75,4 @@ router.delete("/:id", blogFinder, tokenExtractor, async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;

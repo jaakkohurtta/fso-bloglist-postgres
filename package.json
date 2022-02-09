@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "description": "Backend with PostgreSQL for FSO Bloglist App",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "dev": "nodemon index.js",
     "cli": "node cli.js"
@@ -19,6 +18,7 @@
     "express": "^4.17.2",
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.7.1",
-    "sequelize": "^6.15.0"
+    "sequelize": "^6.15.0",
+    "umzug": "^3.0.0"
   }
 }

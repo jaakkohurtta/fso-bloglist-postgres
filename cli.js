@@ -1,6 +1,5 @@
-import "dotenv/config";
-import { Blog } from "./models/index.mjs";
-import { sequelize, connectToDatabase } from "./utils/db.mjs";
+const { Blog } = require("./models/index");
+const { sequelize, connectToDatabase } = require("./utils/db");
 
 const main = async () => {
   await connectToDatabase();

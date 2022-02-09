@@ -1,7 +1,7 @@
-import { Model, DataTypes } from "sequelize";
-import { sequelize } from "../utils/db.mjs";
+const { Model, DataTypes } = require("sequelize");
+const { sequelize } = require("../utils/db.js");
 
-export default class Blog extends Model {}
+class Blog extends Model {}
 Blog.init(
   {
     id: {
@@ -25,5 +25,7 @@ Blog.init(
       defaultValue: 0,
     },
   },
-  { sequelize, underscored: true, timestamps: false, modelName: "blog" },
+  { sequelize, underscored: true, modelName: "blog" },
 );
+
+module.exports = Blog;

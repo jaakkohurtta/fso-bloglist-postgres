@@ -1,9 +1,8 @@
-import { Router } from "express";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-
-import { JWT_SECRET } from "../utils/config.mjs";
-import { User } from "../models/index.mjs";
+const { Router } = require("express");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const { User } = require("../models/index");
+const { JWT_SECRET } = require("../utils/config");
 
 const router = Router();
 
@@ -27,4 +26,4 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-export default router;
+module.exports = router;
