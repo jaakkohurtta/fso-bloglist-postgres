@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js",
-    "cli": "node cli.js"
+    "cli": "node cli.js",
+    "rollback": "node utils/rollback.js"
   },
   "author": "Jaakko Hurtta",
   "license": "ISC",
