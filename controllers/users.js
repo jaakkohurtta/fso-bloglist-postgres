@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const bcrypt = require("bcrypt");
-const { Blog, User } = require("../models/index");
+const { Blog, User, Readinglist } = require("../models/index");
 const { tokenExtractor } = require("../utils/middleware");
 
 const router = Router();
@@ -44,6 +44,10 @@ router.get("/:id", async (req, res) => {
         attributes: { exclude: ["userId"] },
         through: {
           attributes: [],
+        },
+        include: {
+          model: Readinglist,
+          attributes: ["id", "read"],
         },
       },
     ],
