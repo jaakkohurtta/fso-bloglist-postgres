@@ -31,6 +31,13 @@ router.post("/", async (req, res, next) => {
 });
 
 router.get("/:id", async (req, res) => {
+  const where = {};
+
+  if (req.query.read) {
+    console.log(req.query.read);
+    where.read = req.query.read;
+  }
+
   const user = await User.findByPk(req.params.id, {
     attributes: { exclude: ["passwordHash"] },
     include: [
@@ -48,6 +55,7 @@ router.get("/:id", async (req, res) => {
         include: {
           model: Readinglist,
           attributes: ["id", "read"],
+          where,
         },
       },
     ],
