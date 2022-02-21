@@ -29,16 +29,19 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", tokenExtractor, async (req, res, next) => {
-  try {
-    console.log(req.body);
-    const user = await User.findByPk(req.decodedToken.id);
-    const blog = await Blog.create({
-      ...req.body,
-      userId: user.id,
-    });
-    res.json(blog);
-  } catch (e) {
-    next({ error: e.name, message: e.message });
+  if (req.decodedToken) {
+    try {
+      const user = await User.findByPk(req.decodedToken.id);
+      const blog = await Blog.create({
+        ...req.body,
+        userId: user.id,
+      });
+      res.json(blog);
+    } catch (e) {
+      next({ error: e.name, message: e.message });
+    }
+  } else {
+    res.status(403).end();
   }
 });
 
@@ -66,8 +69,6 @@ router.put("/:id", blogFinder, async (req, res, next) => {
 
 router.delete("/:id", blogFinder, tokenExtractor, async (req, res) => {
   if (req.decodedToken && req.blog) {
-    // console.log(req.decodedToken.id, req.blog.userId);
-
     if (req.decodedToken.id === req.blog.userId) {
       await req.blog.destroy();
       res.status(200).end();

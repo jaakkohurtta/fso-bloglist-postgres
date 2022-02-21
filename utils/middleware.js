@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-const { Blog, User } = require("../models/index");
+const { Blog, User, Session } = require("../models/index");
 const { JWT_SECRET } = require("./config");
 
 const blogFinder = async (req, res, next) => {
@@ -17,11 +17,35 @@ const blogFinder = async (req, res, next) => {
   } // In case someone wants to find blogs with a string id, /api/blogs/123abc
 };
 
-const tokenExtractor = (req, res, next) => {
+const sessionHandler = async (req, res, next) => {
+  const authorization = req.get("authorization");
+  if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
+    const token = authorization.substring(7);
+    const decodedToken = jwt.verify(token, JWT_SECRET);
+
+    const user = await User.findByPk(decodedToken.id);
+    if (user.disabled) {
+      const sessions = await Session.findAll({
+        where: { userId: decodedToken.id },
+      });
+      sessions.forEach(async (s) => await s.destroy());
+    }
+  }
+  next();
+};
+
+const tokenExtractor = async (req, res, next) => {
   const authorization = req.get("authorization");
   if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
     try {
-      req.decodedToken = jwt.verify(authorization.substring(7), JWT_SECRET);
+      const token = authorization.substring(7);
+      const session = await Session.findOne({ where: { token } });
+
+      if (session) {
+        req.decodedToken = jwt.verify(token, JWT_SECRET);
+      } else {
+        res.status(401).json({ error: "Session expired." });
+      }
     } catch (e) {
       console.log(e);
       return res.status(401).json({ error: "Invalid token." });
@@ -41,4 +65,5 @@ module.exports = {
   blogFinder,
   tokenExtractor,
   errorHandler,
+  sessionHandler,
 };
